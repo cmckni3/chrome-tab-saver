@@ -4,7 +4,7 @@ Chrome extension to save tabs to a text file
 
 ## Installation
 
-### Install as an unpacked extension (https://developer.chrome.com/extensions/getstarted#unpacked)
+### [Install as an unpacked extension](https://developer.chrome.com/extensions/getstarted#unpacked)
 
 1. Clone the project
 1. Open Chrome
