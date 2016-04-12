@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return '"' + str.replace(/"/g, '""') + '"';
   };
   var get_tabs = function() {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
       window_opts = { populate: true, windowTypes: ['normal'] };
       chrome.windows.getAll(window_opts, function(windows) {
         resolve(_.flatten(windows.map(function(window) { return window.tabs; })).filter(function(tab) { return typeof tab.url !== 'undefined' && tab.url !== ''; }));
