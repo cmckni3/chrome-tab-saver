@@ -2,10 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var save_as_text_button = document.getElementById('save-as-text');
   var save_as_csv_button  = document.getElementById('save-as-csv');
   var save_as_json_button = document.getElementById('save-as-json');
+  var save_to_zip_button  = document.getElementById('save-to-zip');
   var format_date = function(date) {
     return date.getFullYear().toString() + '-' +
            ('0'+(date.getMonth()+1).toString()).slice(-2) + '-' +
-           date.getDate().toString() +
+           ('0'+(date.getDate()).toString()).slice(-2) +
            ' ' + ('0'+date.getHours().toString()).slice(-2) +
            ('0'+date.getMinutes().toString()).slice(-2);
   };
@@ -39,6 +40,31 @@ document.addEventListener('DOMContentLoaded', function() {
       var blob = new Blob([JSON.stringify(tabs.map(function(tab) { return _.pick(tab, [ 'title', 'url' ]); }))], {type: 'application/json'});
       var filename = 'chrome-tabs-' + format_date(new Date()) + '.json';
       saveAs(blob, filename);
+    });
+  }, false);
+  save_to_zip_button.addEventListener('click', function() {
+    var zip = new JSZip();
+    get_tabs().then(function(tabs) {
+      tabs = _.uniqBy(tabs, 'url');
+      var data = _.groupBy(tabs, function(tab) {
+        var domain_name = tab.url.toString().replace(/^(https?):\/\//, '');;
+        var slash_index = domain_name.indexOf('/');
+        if (slash_index >= 0) {
+          domain_name = domain_name.slice(0, slash_index);
+        }
+        return domain_name;
+      });
+      Object.keys(data).forEach(function(key) {
+        var sanitized_key = key.replace(/[^\w\s.]/g);
+        data[key].forEach(function(tab) {
+          var shortcut = '[InternetShortcut]\nURL=' + tab.url;
+          var title = _.trim(tab.title.replace(/[^\w\s]/gi, '').slice(0, 255));
+          zip.folder(sanitized_key).file(title + '.url', shortcut);
+        });
+      });
+      zip.generateAsync({type: 'blob'}).then(function(content) {
+        saveAs(content, 'chrome-tabs-' + format_date(new Date()) + '.zip');
+      });
     });
   }, false);
 }, false);
