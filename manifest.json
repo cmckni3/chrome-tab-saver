@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Tab Saver",
   "description": "This extension allows the user to save the URL of opens tabs to a file",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "minimum_chrome_version": "46",
   "content_scripts": [
     {
@@ -11,7 +11,8 @@
         "vendor/lodash.min.js",
         "vendor/promise.min.js",
         "vendor/Blob.js",
-        "vendor/FileSaver.min.js"
+        "vendor/FileSaver.min.js",
+        "vendor/jszip.js"
       ]
     }
   ],
