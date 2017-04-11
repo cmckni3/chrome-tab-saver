@@ -1,5 +1,7 @@
 # Tab Saver
 
+[![project unmaintained](https://img.shields.io/badge/project-unmaintained-red.svg)](https://img.shields.io/badge/project-unmaintained-red.svg)
+
 Chrome extension to save tabs to a text file
 
 ## Installation
@@ -16,4 +18,3 @@ Chrome extension to save tabs to a text file
 ### Install packed version of extension
 
 TODO
-
